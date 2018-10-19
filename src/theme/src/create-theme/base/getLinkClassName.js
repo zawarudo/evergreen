@@ -1,5 +1,5 @@
 import tinycolor from 'tinycolor2'
-import { Themer } from '../../../../themer/'
+import { Themer } from '../../../../themer'
 import memoizeClassName from '../utils/memoizeClassName'
 
 export default function getLinkClassName({ palette }) {

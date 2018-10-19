@@ -2,13 +2,13 @@ import { storiesOf } from '@storybook/react'
 import React from 'react'
 import PropTypes from 'prop-types'
 import Box from 'ui-box'
-import { Popover } from '../../popover'
+import { Popover } from '..'
 import { Tooltip } from '../../tooltip'
 import { TextInputField } from '../../text-input'
 import { Pane } from '../../layers'
 import { Heading, Paragraph, Text } from '../../typography'
 import { Button } from '../../buttons'
-import { Position } from '../../positioner'
+import { Position } from '../../constants'
 import { Icon, IconNames } from '../../icon'
 
 const PopoverContent = () => (
@@ -115,6 +115,14 @@ storiesOf('popover', module)
           </Popover>
           <Popover content={<PopoverContent />} position={Position.TOP_RIGHT}>
             <Button marginRight={20}>TOP_RIGHT</Button>
+          </Popover>
+        </Box>
+        <Box marginTop={40} display="flex" justifyContent="space-between">
+          <Popover content={<PopoverContent />} position={Position.LEFT}>
+            <Button marginRight={20}>LEFT</Button>
+          </Popover>
+          <Popover content={<PopoverContent />} position={Position.RIGHT}>
+            <Button marginRight={20}>RIGHT</Button>
           </Popover>
         </Box>
       </Box>

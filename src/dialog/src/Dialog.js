@@ -136,16 +136,32 @@ class Dialog extends React.Component {
     cancelLabel: PropTypes.string,
 
     /**
+     * Boolean indicating if clicking the overlay should close the overlay.
+     */
+    shouldCloseOnOverlayClick: PropTypes.bool,
+
+    /**
+     * Boolean indicating if pressing the esc key should close the overlay.
+     */
+    shouldCloseOnEscapePress: PropTypes.bool,
+
+    /**
      * Width of the Dialog.
      */
     width: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     /**
      * The space above the dialog.
-     * This offset is also used at the bottom when there is not enough space
-     * available on screen — and the dialog scrolls internally.
+     * This offset is also used at the bottom when there is not enough vertical
+     * space available on screen — and the dialog scrolls internally.
      */
     topOffset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+
+    /**
+     * The space on the left/right sides of the dialog when there isn't enough
+     * horizontal space available on screen.
+     */
+    sideOffset: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 
     /**
      * The min height of the body content.
@@ -166,12 +182,15 @@ class Dialog extends React.Component {
     hasCancel: true,
     intent: 'none',
     width: 560,
-    topOffset: '12vh',
+    topOffset: '12vmin',
+    sideOffset: '16px',
     minHeightContent: 80,
     confirmLabel: 'Confirm',
     isConfirmLoading: false,
     isConfirmDisabled: false,
     cancelLabel: 'Cancel',
+    shouldCloseOnOverlayClick: true,
+    shouldCloseOnEscapePress: true,
     onCancel: close => close(),
     onConfirm: close => close()
   }
@@ -181,7 +200,8 @@ class Dialog extends React.Component {
 
     if (typeof children === 'function') {
       return children({ close })
-    } else if (typeof children === 'string') {
+    }
+    if (typeof children === 'string') {
       return <Paragraph>{children}</Paragraph>
     }
     return children
@@ -194,6 +214,7 @@ class Dialog extends React.Component {
       intent,
       isShown,
       topOffset,
+      sideOffset,
       hasHeader,
       hasFooter,
       hasCancel,
@@ -205,98 +226,106 @@ class Dialog extends React.Component {
       isConfirmLoading,
       isConfirmDisabled,
       cancelLabel,
+      shouldCloseOnOverlayClick,
+      shouldCloseOnEscapePress,
       containerProps,
       minHeightContent
     } = this.props
 
-    let maxHeight
-    if (Number.isInteger(topOffset)) {
-      maxHeight = `calc(100vh - ${topOffset}px)`
-    } else {
-      maxHeight = `calc(100vh - ${topOffset})`
-    }
+    const sideOffsetWithUnit = Number.isInteger(sideOffset)
+      ? `${sideOffset}px`
+      : sideOffset
+    const maxWidth = `calc(100% - ${sideOffsetWithUnit} * 2)`
+
+    const topOffsetWithUnit = Number.isInteger(topOffset)
+      ? `${topOffset}px`
+      : topOffset
+    const maxHeight = `calc(100% - ${topOffsetWithUnit} * 2)`
 
     return (
       <Overlay
         isShown={isShown}
+        shouldCloseOnClick={shouldCloseOnOverlayClick}
+        shouldCloseOnEscapePress={shouldCloseOnEscapePress}
         onExited={onCloseComplete}
         onEntered={onOpenComplete}
+        containerProps={{
+          display: 'flex',
+          alignItems: 'flex-start',
+          justifyContent: 'center'
+        }}
       >
         {({ state, close }) => (
           <Pane
-            boxSizing="border-box"
-            display="flex"
-            justifyContent="center"
-            paddingTop={topOffset}
+            role="dialog"
+            backgroundColor="white"
+            elevation={4}
+            borderRadius={8}
+            width={width}
+            maxWidth={maxWidth}
             maxHeight={maxHeight}
+            marginX={sideOffsetWithUnit}
+            marginY={topOffsetWithUnit}
+            display="flex"
+            flexDirection="column"
+            css={animationStyles}
+            data-state={state}
+            {...containerProps}
           >
-            <Pane
-              role="dialog"
-              backgroundColor="white"
-              elevation={4}
-              borderRadius={8}
-              width={width}
-              display="flex"
-              flexDirection="column"
-              css={animationStyles}
-              data-state={state}
-              {...containerProps}
-            >
-              {hasHeader && (
-                <Pane
-                  padding={16}
-                  flexShrink={0}
-                  borderBottom="muted"
-                  display="flex"
-                  alignItems="center"
-                >
-                  <Heading is="h4" size={600} flex="1">
-                    {title}
-                  </Heading>
-                  <IconButton
-                    appearance="minimal"
-                    icon="cross"
-                    onClick={close}
-                  />
-                </Pane>
-              )}
-
+            {hasHeader && (
               <Pane
-                data-state={state}
-                display="flex"
-                overflowY="auto"
                 padding={16}
-                flexDirection="column"
-                minHeight={minHeightContent}
+                flexShrink={0}
+                borderBottom="muted"
+                display="flex"
+                alignItems="center"
               >
-                <Pane>{this.renderChildren(close)}</Pane>
+                <Heading is="h4" size={600} flex="1">
+                  {title}
+                </Heading>
+                <IconButton
+                  appearance="minimal"
+                  icon="cross"
+                  onClick={() => onCancel(close)}
+                />
               </Pane>
+            )}
 
-              {hasFooter && (
-                <Pane borderTop="muted" clearfix>
-                  <Pane padding={16} float="right">
-                    {/* Cancel should be first to make sure focus gets on it first. */}
-                    {hasCancel && (
-                      <Button tabIndex={0} onClick={() => onCancel(close)}>
-                        {cancelLabel}
-                      </Button>
-                    )}
-
-                    <Button
-                      tabIndex={0}
-                      marginLeft={8}
-                      appearance="primary"
-                      isLoading={isConfirmLoading}
-                      disabled={isConfirmDisabled}
-                      onClick={() => onConfirm(close)}
-                      intent={intent}
-                    >
-                      {confirmLabel}
-                    </Button>
-                  </Pane>
-                </Pane>
-              )}
+            <Pane
+              data-state={state}
+              display="flex"
+              overflow="auto"
+              padding={16}
+              flexDirection="column"
+              minHeight={minHeightContent}
+            >
+              <Pane>{this.renderChildren(close)}</Pane>
             </Pane>
+
+            {hasFooter && (
+              <Pane borderTop="muted" clearfix>
+                <Pane padding={16} float="right">
+                  {/* Cancel should be first to make sure focus gets on it first. */}
+                  {hasCancel && (
+                    <Button tabIndex={0} onClick={() => onCancel(close)}>
+                      {cancelLabel}
+                    </Button>
+                  )}
+
+                  <Button
+                    tabIndex={0}
+                    marginLeft={8}
+                    appearance="primary"
+                    isLoading={isConfirmLoading}
+                    disabled={isConfirmDisabled}
+                    onClick={() => onConfirm(close)}
+                    intent={intent}
+                  >
+                    {confirmLabel}
+                  </Button>
+                </Pane>
+              </Pane>
+            )}
           </Pane>
         )}
       </Overlay>

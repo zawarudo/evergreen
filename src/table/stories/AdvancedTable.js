@@ -1,8 +1,8 @@
 import React from 'react'
 import { filter } from 'fuzzaldrin-plus'
-import { Table } from '../../table'
+import { Table } from '..'
 import { Popover } from '../../popover'
-import { Position } from '../../positioner'
+import { Position } from '../../constants'
 import { Menu } from '../../menu'
 import { Avatar } from '../../avatar'
 import { Text } from '../../typography'
@@ -71,7 +71,7 @@ export default class AdvancedTable extends React.Component {
     const searchQuery = this.state.searchQuery.trim()
 
     // If the searchQuery is empty, return the profiles as is.
-    if (searchQuery.length < 1) return profiles
+    if (searchQuery.length === 0) return profiles
 
     return profiles.filter(profile => {
       // Use the filter from fuzzaldrin-plus to filter by name.
@@ -253,7 +253,7 @@ export default class AdvancedTable extends React.Component {
           {this.renderLTVTableHeaderCell()}
           <Table.HeaderCell width={48} flex="none" />
         </Table.Head>
-        <Table.VirtualBody height={640} overscanAmount={20}>
+        <Table.VirtualBody height={640}>
           {items.map(item => this.renderRow({ profile: item }))}
         </Table.VirtualBody>
       </Table>

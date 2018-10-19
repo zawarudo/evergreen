@@ -1,7 +1,8 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import Box from 'ui-box'
-import { Table } from '../../table'
+import { Table } from '..'
+import { Portal } from '../../portal'
 import AdvancedTable from './AdvancedTable'
 import VirtualTable from './VirtualTable'
 import EditableTable from './EditableTable'
@@ -38,6 +39,28 @@ storiesOf('table', module)
         document.body.style.height = '100vh'
       })()}
       <EditableTable />
+    </Box>
+  ))
+  .add('Editable Table offset test ', () => (
+    <Box padding={24} paddingTop={800} height="100vh">
+      {(() => {
+        document.body.style.margin = '0'
+        document.body.style.height = '100vh'
+      })()}
+      <EditableTable />
+    </Box>
+  ))
+  .add('Virtual Table within Portal test', () => (
+    <Box padding={24} height="100vh">
+      {(() => {
+        document.body.style.margin = '0'
+        document.body.style.height = '100vh'
+      })()}
+      <Portal>
+        <Box position="fixed" top={0} left={0} right={0} bottom={0}>
+          <VirtualTable />
+        </Box>
+      </Portal>
     </Box>
   ))
   .add('Table.Cell', () => (
@@ -94,7 +117,9 @@ storiesOf('table', module)
       </Table.Row>
       <Table.Row height="auto" paddingY={12}>
         <Table.TextCell>
-          Auto height <br />based on <br />the content
+          Auto height <br />
+          based on <br />
+          the content
         </Table.TextCell>
       </Table.Row>
     </Box>

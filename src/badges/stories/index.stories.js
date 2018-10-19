@@ -1,7 +1,7 @@
 import { storiesOf } from '@storybook/react'
 import React from 'react'
 import Box from 'ui-box'
-import { Badge, Pill } from '../../badges'
+import { Badge, Pill } from '..'
 import { ThemeConsumer } from '../../theme'
 
 const wrapperStyles = {
@@ -18,7 +18,7 @@ storiesOf('badges', module)
     <ThemeConsumer>
       {theme => (
         <Box style={{ ...wrapperStyles }}>
-          {theme.fills.options.map(color => (
+          {theme.badgeColors.map(color => (
             <Box key={color}>
               <Badge color={color} {...baseStyles}>
                 {color}
@@ -36,7 +36,7 @@ storiesOf('badges', module)
     <ThemeConsumer>
       {theme => (
         <Box style={{ ...wrapperStyles }}>
-          {theme.fill.options.map(color => (
+          {theme.badgeColors.map(color => (
             <Box key={color}>
               <Pill color={color} {...baseStyles}>
                 {color}

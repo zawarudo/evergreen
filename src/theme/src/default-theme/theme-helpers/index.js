@@ -1,7 +1,7 @@
 import { Intent } from '../../../../constants'
 import themedProperty from '../utils/themedProperty'
-import { colors, elevations } from '../foundational-styles/'
-import { fontFamilies, headings, paragraph, text } from '../typography/'
+import { colors, elevations } from '../foundational-styles'
+import { fontFamilies, headings, paragraph, text } from '../typography'
 
 /**
  * Controls include:
@@ -27,9 +27,7 @@ const getTextSizeForControlHeight = height => {
   if (height <= 32) return 300
   if (height <= 36) return 400
   if (height <= 40) return 400
-  if (height <= 48) return 500
-  if (height <= 56) return 700
-  return 800
+  return 500
 }
 
 /**

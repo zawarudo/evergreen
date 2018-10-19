@@ -1,6 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import ThemeBuilder from '../theme-builder/'
+import ThemeBuilder from '../theme-builder'
 import TopBar from '../components/TopBar'
 import Layout from '../components/Layout'
 

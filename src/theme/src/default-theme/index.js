@@ -19,7 +19,7 @@ import {
   fills,
   palette,
   scales
-} from './foundational-styles/'
+} from './foundational-styles'
 
 /**
  * Typography.
@@ -27,7 +27,7 @@ import {
  * The following properties are NOT REQUIRED by Evergreen.
  * It's exposed for convenience and documentation.
  */
-import { headings, text, fontFamilies, paragraph } from './typography/'
+import { headings, text, fontFamilies, paragraph } from './typography'
 
 /**
  * Component Specific.
@@ -35,6 +35,8 @@ import { headings, text, fontFamilies, paragraph } from './typography/'
  * These ARE REQUIRED for Evergreen to work.
  */
 import {
+  avatarColors,
+  badgeColors,
   spinnerColor,
   overlayBackgroundColor,
   getButtonClassName,
@@ -57,7 +59,7 @@ import {
   getAvatarProps,
   getBadgeProps,
   getAvatarInitialsFontSize
-} from './component-specific/'
+} from './component-specific'
 
 /**
  * Theme Helpers.
@@ -80,7 +82,7 @@ import {
   getParagraphStyle,
   getFontFamily,
   getTextColor
-} from './theme-helpers/'
+} from './theme-helpers'
 
 export default {
   // Foundational Styles.
@@ -91,6 +93,8 @@ export default {
   scales,
 
   // Component Specific.
+  avatarColors,
+  badgeColors,
   spinnerColor,
   overlayBackgroundColor,
   getButtonClassName,

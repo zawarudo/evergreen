@@ -1,4 +1,4 @@
-import { Themer } from '../../../../themer/'
+import { Themer } from '../../../../themer'
 import memoizeClassName from '../utils/memoizeClassName'
 import scales from '../foundational-styles/scales'
 import {
@@ -10,7 +10,7 @@ import { defaultControlStyles } from '../shared'
 /**
  * Disabled styles are all the same for all buttons.
  */
-const disabled = defaultControlStyles.disabled
+const { disabled } = defaultControlStyles
 
 /**
  * Get button appearance.
@@ -56,7 +56,7 @@ const getButtonAppearance = (appearance, intent) => {
       })
     }
     case 'minimal': {
-      const intentTextColor = getTextColorForIntent(intent, scales.primary.P9)
+      const intentTextColor = getTextColorForIntent(intent, scales.blue.B9)
       return Themer.createButtonAppearance({
         disabled,
         base: {
@@ -67,11 +67,11 @@ const getButtonAppearance = (appearance, intent) => {
           backgroundColor: scales.neutral.N2A
         },
         focus: {
-          boxShadow: `0 0 0 3px ${scales.primary.P5A}`
+          boxShadow: `0 0 0 3px ${scales.blue.B5A}`
         },
         active: {
           backgroundImage: 'none',
-          backgroundColor: scales.primary.P3A
+          backgroundColor: scales.blue.B3A
         },
         focusAndActive: {}
       })

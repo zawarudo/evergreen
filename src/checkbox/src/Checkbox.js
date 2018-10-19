@@ -18,6 +18,20 @@ CheckIcon.propTypes = {
   fill: PropTypes.string
 }
 
+const MinusIcon = ({ fill = 'currentColor', ...props }) => (
+  <svg width={16} height={16} viewBox="0 0 16 16" {...props}>
+    <path
+      fill={fill}
+      fillRule="evenodd"
+      d="M11 7H5c-.55 0-1 .45-1 1s.45 1 1 1h6c.55 0 1-.45 1-1s-.45-1-1-1z"
+    />
+  </svg>
+)
+
+MinusIcon.propTypes = {
+  fill: PropTypes.string
+}
+
 class Checkbox extends PureComponent {
   static propTypes = {
     /**
@@ -54,6 +68,12 @@ class Checkbox extends PureComponent {
     checked: PropTypes.bool,
 
     /**
+     * State in addition to "checked" and "unchecked".
+     * When true, the radio displays a "minus" icon.
+     */
+    indeterminate: PropTypes.bool,
+
+    /**
      * Function called when state changes.
      */
     onChange: PropTypes.func,
@@ -82,8 +102,15 @@ class Checkbox extends PureComponent {
   }
 
   static defaultProps = {
-    appearance: 'default',
-    onChange: () => {}
+    checked: false,
+    indeterminate: false,
+    onChange: () => {},
+    appearance: 'default'
+  }
+
+  setIndeterminate = el => {
+    if (!el) return
+    el.indeterminate = this.props.indeterminate
   }
 
   render() {
@@ -99,6 +126,7 @@ class Checkbox extends PureComponent {
       checked,
       onChange,
       value,
+      indeterminate,
       ...props
     } = this.props
 
@@ -108,9 +136,9 @@ class Checkbox extends PureComponent {
       <Box
         is="label"
         cursor={disabled ? 'not-allowed' : 'pointer'}
+        position="relative"
         display="flex"
         marginY={16}
-        position="relative"
         {...props}
       >
         <Box
@@ -120,10 +148,11 @@ class Checkbox extends PureComponent {
           type="checkbox"
           name={name}
           value={value}
-          checked={checked}
+          checked={checked || indeterminate}
           onChange={onChange}
           disabled={disabled}
-          {...(isInvalid ? { 'aria-invalid': true } : {})}
+          aria-invalid={isInvalid}
+          innerRef={this.setIndeterminate}
         />
         <Box
           boxSizing="border-box"
@@ -134,7 +163,7 @@ class Checkbox extends PureComponent {
           width={16}
           height={16}
         >
-          <CheckIcon />
+          {indeterminate ? <MinusIcon /> : <CheckIcon />}
         </Box>
         {label && (
           <Text

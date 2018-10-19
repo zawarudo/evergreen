@@ -1,4 +1,4 @@
-import { Themer } from '../../../../themer/'
+import { Themer } from '../../../../themer'
 import memoizeClassName from '../utils/memoizeClassName'
 
 export default function getButtonClassName({
@@ -7,7 +7,7 @@ export default function getButtonClassName({
   getPrimaryButtonStylesForIntent,
   getTextColorForIntent
 }) {
-  const disabled = defaultControlStyles.disabled
+  const { disabled } = defaultControlStyles
 
   /**
    * Get button appearance.

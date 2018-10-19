@@ -14,11 +14,11 @@ Appearances.default = Themer.createRowAppearance({
   },
 
   focus: {
-    backgroundColor: scales.primary.P1A
+    backgroundColor: scales.blue.B1A
   },
 
   active: {
-    backgroundColor: scales.primary.P2A
+    backgroundColor: scales.blue.B2A
   },
 
   current: {}

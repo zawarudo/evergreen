@@ -1,9 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import tinycolor from 'tinycolor2'
-import { Pane } from '../../layers/'
-import { Heading, Code } from '../../typography/'
-import { defaultTheme } from '../../theme/'
+import { Pane } from '../../layers'
+import { Heading, Code } from '../../typography'
+import { defaultTheme } from '../../theme'
 import colors from './v3-colors'
 
 const { palette, scales } = defaultTheme
@@ -337,62 +337,62 @@ export default class ColorMapping extends React.PureComponent {
             {
               oldColor: colors.blue['5'],
               oldColorString: `colors.blue['5']`,
-              newColor: scales.primary.P1,
-              newColorString: `scales.primary.P1`
+              newColor: scales.blue.B1,
+              newColorString: `scales.blue.B1`
             },
             {
               oldColor: colors.blue['7'],
               oldColorString: `colors.blue['7']`,
-              newColor: scales.primary.P2,
-              newColorString: `scales.primary.P2`
+              newColor: scales.blue.B2,
+              newColorString: `scales.blue.B2`
             },
             {
               oldColor: colors.blue['10'],
               oldColorString: `colors.blue['10']`,
-              newColor: scales.primary.P3,
-              newColorString: `scales.primary.P3`
+              newColor: scales.blue.B3,
+              newColorString: `scales.blue.B3`
             },
             {
               oldColor: colors.blue['15'],
               oldColorString: `colors.blue['15']`,
-              newColor: scales.primary.P4,
-              newColorString: `scales.primary.P4`
+              newColor: scales.blue.B4,
+              newColorString: `scales.blue.B4`
             },
             {
               oldColor: colors.blue['40'],
               oldColorString: `colors.blue['40']`,
-              newColor: scales.primary.P5,
-              newColorString: `scales.primary.P5`
+              newColor: scales.blue.B5,
+              newColorString: `scales.blue.B5`
             },
             {
               oldColor: colors.blue['80'],
               oldColorString: `colors.blue['80']`,
-              newColor: scales.primary.P6,
-              newColorString: `scales.primary.P6`
+              newColor: scales.blue.B6,
+              newColorString: `scales.blue.B6`
             },
             {
               oldColor: colors.blue['200'],
               oldColorString: `colors.blue['200']`,
-              newColor: scales.primary.P7,
-              newColorString: `scales.primary.P7`
+              newColor: scales.blue.B7,
+              newColorString: `scales.blue.B7`
             },
             {
               oldColor: colors.blue['300'],
               oldColorString: `colors.blue['300']`,
-              newColor: scales.primary.P8,
-              newColorString: `scales.primary.P8`
+              newColor: scales.blue.B8,
+              newColorString: `scales.blue.B8`
             },
             {
               oldColor: colors.blue['500'],
               oldColorString: `colors.blue['500']`,
-              newColor: scales.primary.P9,
-              newColorString: `scales.primary.P9`
+              newColor: scales.blue.B9,
+              newColorString: `scales.blue.B9`
             },
             {
               oldColor: colors.blue['800'],
               oldColorString: `colors.blue['800']`,
-              newColor: scales.primary.P10,
-              newColorString: `scales.primary.P10`
+              newColor: scales.blue.B10,
+              newColorString: `scales.blue.B10`
             }
           ]}
         />

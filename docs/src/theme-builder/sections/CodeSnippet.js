@@ -17,15 +17,15 @@ export default class CodeSnippet extends React.Component {
         contentPadding={0}
       >
         <Pane>
-          <Pane
-            background="tint1"
-            style={{ fontSize: 12 }}
-            css={{
-              '& pre': { margin: '0 !important', background: 'none !important' }
+          <SyntaxHighlighter
+            style={{
+              marginTop: 0,
+              marginBottom: 0,
+              borderRadius: 0,
+              fontSize: 12
             }}
           >
-            <SyntaxHighlighter>
-              {`import React from 'react'
+            {`import React from 'react'
 import ReactDOM from 'react-dom'
 import { createTheme, ThemeProvider } from 'evergreen-ui'
 
@@ -38,8 +38,7 @@ const Root = () => (
 )
 
 ReactDOM.render(<Root />, document.querySelector('#root'))`}
-            </SyntaxHighlighter>
-          </Pane>
+          </SyntaxHighlighter>
         </Pane>
       </Section>
     )

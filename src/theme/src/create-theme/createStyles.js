@@ -1,26 +1,12 @@
 import { Intent } from '../../../constants'
+import { defaultThemeConfig } from '../default-theme'
 import themedProperty from './utils/themedProperty'
 import createColorScales from './utils/createColorScales'
 import linearGradient from './utils/linearGradient'
 
-const DefaultStyles = {}
-
-DefaultStyles.palette = {
-  neutral: '#425A70',
-  primary: '#1070ca',
-  red: '#ec4c47',
-  orange: '#d9822b',
-  yellow: '#f7d154',
-  green: '#47b881',
-  teal: '#14b5d0',
-  purple: '#735dd0'
-}
-
-DefaultStyles.controlStyle = 'gradients'
-
 export default function createStyles(config = {}) {
-  const scales = createColorScales(config.palette, DefaultStyles.palette)
-  const controlStyle = config.controlStyle || DefaultStyles.controlStyle
+  const scales = createColorScales(config.palette, defaultThemeConfig.palette)
+  const controlStyle = config.controlStyle || defaultThemeConfig.controlStyle
 
   const palette = {}
   for (const key in scales) {
@@ -137,6 +123,10 @@ export default function createStyles(config = {}) {
       color: 'white',
       backgroundColor: palette.primary.base
     },
+    blue: {
+      color: 'white',
+      backgroundColor: palette.blue.base
+    },
     red: {
       color: 'white',
       backgroundColor: palette.red.base
@@ -171,6 +161,10 @@ export default function createStyles(config = {}) {
     primary: {
       color: palette.primary.dark,
       backgroundColor: palette.primary.light
+    },
+    blue: {
+      color: palette.blue.dark,
+      backgroundColor: palette.blue.light
     },
     red: {
       color: palette.red.dark,

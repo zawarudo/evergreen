@@ -7,7 +7,7 @@ import Features from '../components/Features'
 import HomeHero from '../components/HomeHero'
 import HomeMedia from '../components/HomeMedia'
 
-export default class Root extends React.Component {
+export default class Home extends React.Component {
   componentDidCatch(error, errorInfo) {
     console.error(error, errorInfo)
   }

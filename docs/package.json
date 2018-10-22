@@ -37,7 +37,7 @@
     "react-dom": "^16.4.0",
     "react-github-button": "^0.1.11",
     "react-helmet": "^5.2.0",
-    "react-live": "1.11.0",
+    "react-live": "1.8.0-0",
     "react-syntax-highlighter": "^7.0.2",
     "starwars-names": "^1.6.0",
     "url-polyfill": "^1.1.0"

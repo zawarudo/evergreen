@@ -14,6 +14,7 @@ export default class ButtonSection extends React.Component {
     ],
     value: 32
   }
+
   render() {
     const { state } = this
     return (
@@ -22,6 +23,7 @@ export default class ButtonSection extends React.Component {
         fileName="ButtonSection.js"
         controls={
           <SegmentedControl
+            name="button_height"
             width={280}
             options={state.options}
             value={state.value}

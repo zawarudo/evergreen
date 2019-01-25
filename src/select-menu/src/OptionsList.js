@@ -175,10 +175,15 @@ export default class OptionsList extends PureComponent {
   }
 
   handleEnter = () => {
-    const { onSelect } = this.props
+    const { onSelect, onDeselect } = this.props
     const { currentIndex } = this.state
     const options = this.getFilteredOptions()
-    onSelect(options[currentIndex])
+    const item = options[currentIndex]
+    if (this.isSelected(item)) {
+      onDeselect(item)
+    } else {
+      onSelect(item)
+    }
   }
 
   handleChange = searchValue => {

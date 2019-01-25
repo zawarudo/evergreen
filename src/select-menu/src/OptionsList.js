@@ -71,7 +71,8 @@ export default class OptionsList extends PureComponent {
 
     this.state = {
       searchValue: props.defaultSearchValue,
-      selected: props.selected
+      selected: props.selected,
+      currentIndex: -1
     }
   }
 
@@ -152,37 +153,32 @@ export default class OptionsList extends PureComponent {
   }
 
   handleArrowUp = () => {
-    const { onSelect } = this.props
     const options = this.getFilteredOptions()
-
-    let nextIndex = this.getCurrentIndex() - 1
-
-    if (nextIndex < 0) {
-      nextIndex = options.length - 1
-    }
-
-    onSelect(options[nextIndex])
+    this.setState(prevState => {
+      let nextIndex = prevState.currentIndex - 1
+      if (nextIndex < 0) {
+        nextIndex = options.length - 1
+      }
+      return { currentIndex: nextIndex }
+    })
   }
 
   handleArrowDown = () => {
-    const { onSelect } = this.props
     const options = this.getFilteredOptions()
-
-    let nextIndex = this.getCurrentIndex() + 1
-
-    if (nextIndex === options.length) {
-      nextIndex = 0
-    }
-
-    onSelect(options[nextIndex])
+    this.setState(prevState => {
+      let nextIndex = prevState.currentIndex + 1
+      if (nextIndex === options.length) {
+        nextIndex = 0
+      }
+      return { currentIndex: nextIndex }
+    })
   }
 
   handleEnter = () => {
-    const isSelected = this.getCurrentIndex() !== -1
-
-    if (isSelected) {
-      this.props.close()
-    }
+    const { onSelect } = this.props
+    const { currentIndex } = this.state
+    const options = this.getFilteredOptions()
+    onSelect(options[currentIndex])
   }
 
   handleChange = searchValue => {
@@ -192,11 +188,19 @@ export default class OptionsList extends PureComponent {
     this.props.onFilterChange(searchValue)
   }
 
+  setCurrentIndex = item => {
+    const options = this.getFilteredOptions()
+    const newIndex = options.findIndex(option => option === item)
+    this.setState({ currentIndex: newIndex })
+  }
+
   handleSelect = item => {
+    this.setCurrentIndex(item)
     this.props.onSelect(item)
   }
 
   handleDeselect = item => {
+    this.setCurrentIndex(item)
     this.props.onDeselect(item)
   }
 
@@ -223,9 +227,9 @@ export default class OptionsList extends PureComponent {
       defaultSearchValue,
       ...props
     } = this.props
+    const { currentIndex } = this.state
     const options = this.search(originalOptions)
     const listHeight = height - (hasFilter ? 32 : 0)
-    const currentIndex = this.getCurrentIndex()
     const scrollToIndex = currentIndex === -1 ? 0 : currentIndex
 
     return (
@@ -263,6 +267,7 @@ export default class OptionsList extends PureComponent {
               const item = options[index]
               const isSelected = this.isSelected(item)
               return renderItem({
+                isHighlighted: index === currentIndex,
                 key: item.value,
                 label: item.label,
                 style,

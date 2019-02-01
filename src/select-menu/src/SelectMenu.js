@@ -61,6 +61,11 @@ export default class SelectMenu extends PureComponent {
     hasFilter: PropTypes.bool,
 
     /**
+     * When true, close the menu when option is selected. Ignored in multi-select menus.
+     */
+    closeOnSelect: PropTypes.bool,
+
+    /**
      * Function that is called as the onChange() event for the filter.
      */
     onFilterChange: PropTypes.func,
@@ -149,6 +154,7 @@ export default class SelectMenu extends PureComponent {
       emptyView,
       titleView,
       isMultiSelect,
+      closeOnSelect,
       ...props
     } = this.props
 
@@ -170,6 +176,10 @@ export default class SelectMenu extends PureComponent {
             listProps={{
               onSelect: item => {
                 this.props.onSelect(item)
+
+                if (!isMultiSelect && closeOnSelect) {
+                  close()
+                }
               },
               onDeselect: item => {
                 this.props.onDeselect(item)

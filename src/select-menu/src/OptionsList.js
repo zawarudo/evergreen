@@ -81,7 +81,7 @@ export default class OptionsList extends PureComponent {
 
     this.state = {
       searchValue: props.defaultSearchValue,
-      selected: props.selected
+      currentIndex: 0
     }
   }
 
@@ -103,17 +103,8 @@ export default class OptionsList extends PureComponent {
     window.removeEventListener('keydown', this.handleKeyDown)
   }
 
-  componentDidUpdate(prevProps) {
-    if (prevProps.selected !== this.props.selected) {
-      // eslint-disable-next-line react/no-did-update-set-state
-      this.setState({
-        selected: this.props.selected
-      })
-    }
-  }
-
   isSelected = item => {
-    const { selected } = this.state
+    const { selected } = this.props
 
     return Boolean(selected.find(selectedItem => selectedItem === item.value))
   }
@@ -136,15 +127,6 @@ export default class OptionsList extends PureComponent {
     return fuzzyFilter(options, searchValue, { key: 'label' })
   }
 
-  getCurrentIndex = () => {
-    const { selected } = this.props
-    const options = this.getFilteredOptions()
-
-    return options.findIndex(
-      option => option.value === selected[selected.length - 1]
-    )
-  }
-
   getFilteredOptions() {
     const { options } = this.props
 
@@ -152,8 +134,16 @@ export default class OptionsList extends PureComponent {
   }
 
   handleKeyDown = e => {
+    if (e.keyCode === 37) {
+      this.handleKeyLeft()
+    }
+
     if (e.keyCode === 38) {
       this.handleArrowUp()
+    }
+
+    if (e.keyCode === 39) {
+      this.handleArrowRight()
     }
 
     if (e.keyCode === 40) {
@@ -165,36 +155,33 @@ export default class OptionsList extends PureComponent {
     }
   }
 
+  handleArrowRight = () => {
+    this.handleSelect(this.props.options[this.state.currentIndex])
+  }
+
+  handleKeyLeft = () => {
+    this.handleDeselect(this.props.options[this.state.currentIndex])
+  }
+
   handleArrowUp = () => {
-    const { onSelect } = this.props
-    const options = this.getFilteredOptions()
-
-    let nextIndex = this.getCurrentIndex() - 1
-
-    if (nextIndex < 0) {
-      nextIndex = options.length - 1
-    }
-
-    onSelect(options[nextIndex])
+    const nextIndex = Math.max(this.state.currentIndex - 1, 0)
+    this.setState(prevState => {
+      return { ...prevState, currentIndex: nextIndex }
+    })
   }
 
   handleArrowDown = () => {
-    const { onSelect } = this.props
-    const options = this.getFilteredOptions()
-
-    let nextIndex = this.getCurrentIndex() + 1
-
-    if (nextIndex === options.length) {
-      nextIndex = 0
-    }
-
-    onSelect(options[nextIndex])
+    const nextIndex = Math.min(
+      this.state.currentIndex + 1,
+      this.props.options.length - 1
+    )
+    this.setState(prevState => {
+      return { ...prevState, currentIndex: nextIndex }
+    })
   }
 
   handleEnter = () => {
-    const isSelected = this.getCurrentIndex() !== -1
-
-    if (isSelected) {
+    if (this.isSelected(this.props.options[this.state.currentIndex])) {
       this.props.close()
     }
   }
@@ -243,8 +230,6 @@ export default class OptionsList extends PureComponent {
     } = this.props
     const options = this.search(originalOptions)
     const listHeight = height - (hasFilter ? 32 : 0)
-    const currentIndex = this.getCurrentIndex()
-    const scrollToIndex = currentIndex === -1 ? 0 : currentIndex
 
     return (
       <Pane
@@ -274,9 +259,9 @@ export default class OptionsList extends PureComponent {
             itemCount={options.length}
             overscanCount={20}
             scrollToAlignment="auto"
-            {...(scrollToIndex
+            {...(this.state.currentIndex
               ? {
-                  scrollToIndex
+                  scrollToIndex: this.state.currentIndex
                 }
               : {})}
             renderItem={({ index, style }) => {
@@ -291,7 +276,8 @@ export default class OptionsList extends PureComponent {
                 onDeselect: () => this.handleDeselect(item),
                 isSelectable: !isSelected || isMultiSelect,
                 isSelected,
-                disabled: item.disabled
+                disabled: item.disabled,
+                isHighlighted: this.state.currentIndex === index
               })
             }}
           />

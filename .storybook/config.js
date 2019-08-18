@@ -1,6 +1,5 @@
 import { addParameters, configure } from '@storybook/react'
 import EvergreenTheme from './theme'
-import 'react-chromatic/storybook-addon'
 
 // Option defaults:
 addParameters({

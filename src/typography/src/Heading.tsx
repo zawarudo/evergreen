@@ -9,7 +9,7 @@ export interface HeadingProps extends React.ComponentProps<typeof Box> {
   /**
    * Pass `default` to use the default margin top for that size.
    */
-  marginTop?: boolean | number | string | 'default'
+  marginTop?: false | number | string | 'default'
 
   /**
    * The size of the heading.
@@ -28,7 +28,7 @@ class Heading extends PureComponent<HeadingProps> {
       PropTypes.bool,
       PropTypes.number,
       PropTypes.string
-    ]),
+    ]) as Validator<false | number | string | 'default'>,
     size: PropTypes.oneOf([100, 200, 300, 400, 500, 600, 700, 800, 900])
       .isRequired as Validator<HeadingSize>,
     theme: PropTypes.object.isRequired as Validator<Theme>

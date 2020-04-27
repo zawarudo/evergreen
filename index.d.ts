@@ -790,10 +790,20 @@ export interface DialogProps {
    */
   hasHeader?: boolean
   /**
+   * A custom header to render at the top of the Dialog. If set, this
+   * takes precedence over the default header.
+   */
+  header?: JSX.Element
+  /**
    * When true, the footer with the cancel and confirm button is shown.
    * Defaults to true.
    */
   hasFooter?: boolean
+  /**
+   * A custom footer to render at the bottom of the Dialog. If set, this
+   * takes precedence over the default footer.
+   */
+  footer: JSX.Element
   /**
    * When true, the cancel button is shown. Defaults to true.
    */
@@ -880,6 +890,10 @@ export interface DialogProps {
    * Whether or not to prevent scrolling in the outer body. Defaults to false.
    */
   preventBodyScrolling?: boolean
+  /**
+   * Props that are passed to the overlay container.
+   */
+  overlayProps?: object
 }
 
 export class Dialog extends React.PureComponent<DialogProps> {
